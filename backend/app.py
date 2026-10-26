@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, jsonify, render_template
+from sqlalchemy import inspect, text
 
 from .config import Config
 from .models import db
@@ -14,6 +15,32 @@ db.init_app(app)
 app.register_blueprint(api)
 
 
+def migrate_legacy_schema():
+    """Add columns introduced after the first generated Neon schema."""
+    inspector = inspect(db.engine)
+    additions = {
+        "users": {
+            "username": "VARCHAR(100) NOT NULL DEFAULT 'Customer'",
+            "password_hash": "VARCHAR(255)",
+        },
+        "products": {
+            "stock": "INTEGER NOT NULL DEFAULT 25",
+            "featured": "BOOLEAN NOT NULL DEFAULT FALSE",
+        },
+        "orders": {
+            "customer_name": "VARCHAR(160) NOT NULL DEFAULT 'Demo Shopper'",
+            "shipping_address": "TEXT NOT NULL DEFAULT ''",
+            "created_at": "TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP",
+        },
+    }
+    for table, columns in additions.items():
+        existing = {column["name"] for column in inspector.get_columns(table)}
+        for column, definition in columns.items():
+            if column not in existing:
+                db.session.execute(text(f'ALTER TABLE "{table}" ADD COLUMN "{column}" {definition}'))
+    db.session.commit()
+
+
 @app.get("/")
 @app.get("/<page>")
 def frontend(page="index"):
@@ -25,6 +52,7 @@ def frontend(page="index"):
 
 with app.app_context():
     db.create_all()
+    migrate_legacy_schema()
     ensure_demo_data()
 
 
