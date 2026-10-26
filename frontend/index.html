@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07101d">
+  <title>Northstar Goods | Thoughtful things, beautifully chosen</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="brand" href="/" data-route="/"><span class="brand-mark">✦</span> northstar<span>goods</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="/products" data-route="/products">Shop</a>
+        <a href="/search" data-route="/search">Search</a>
+        <a href="/order-history" data-route="/order-history">Orders</a>
+        <a class="cart-link" href="/cart" data-route="/cart">Bag <b id="cart-count">0</b></a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="view" data-view="home">
+        <div class="hero">
+          <div class="hero-copy">
+            <span class="eyebrow">Curated for the everyday</span>
+            <h1>Good design.<br><em>Better living.</em></h1>
+            <p>Thoughtful objects, useful technology, and small luxuries selected to make daily life feel a little more considered.</p>
+            <a class="button primary" href="/products" data-route="/products">Explore the collection <span>→</span></a>
+          </div>
+          <div class="hero-art"><div class="hero-glow"></div><div class="hero-card"><span>01 / EDIT</span><strong>Objects with<br><i>intention.</i></strong><small>New season · 2026</small></div><div class="hero-ring"></div></div>
+        </div>
+        <div class="section-heading"><div><span class="eyebrow">The edit</span><h2>Made to be kept.</h2></div><a href="/products" data-route="/products">View all products →</a></div>
+        <div id="featured-products" class="product-grid"></div>
+      </section>
+
+      <section class="view" data-view="products" hidden>
+        <div class="page-heading"><span class="eyebrow">The collection</span><h1>Find your next favorite.</h1><p>Explore useful, beautiful things for work, rest, and everywhere in between.</p></div>
+        <div class="shop-toolbar"><div id="category-filters" class="filters"></div><label class="search-field"><span>⌕</span><input id="shop-search" type="search" placeholder="Search products..."></label></div>
+        <div id="products-grid" class="product-grid"></div>
+      </section>
+
+      <section class="view" data-view="search" hidden>
+        <div class="page-heading"><span class="eyebrow">Search the edit</span><h1>What are you looking for?</h1></div>
+        <div class="large-search"><span>⌕</span><input id="global-search" type="search" placeholder="Try “headphones” or “home”" autofocus></div>
+        <div id="search-results" class="product-grid"></div>
+      </section>
+
+      <section class="view" data-view="product-detail" hidden><div id="product-detail-view"></div></section>
+
+      <section class="view" data-view="cart" hidden>
+        <div class="page-heading"><span class="eyebrow">Your selection</span><h1>Your bag.</h1></div>
+        <div id="cart-view" class="cart-layout"></div>
+      </section>
+
+      <section class="view" data-view="checkout" hidden>
+        <div class="page-heading"><span class="eyebrow">Almost yours</span><h1>Complete your order.</h1><p>We’ll keep it simple. This demo checkout stores your order in the connected database.</p></div>
+        <div id="checkout-view" class="checkout-layout"></div>
+      </section>
+
+      <section class="view" data-view="order-history" hidden>
+        <div class="page-heading"><span class="eyebrow">Your northstar</span><h1>Order history.</h1><p>A quiet record of the things you chose to keep.</p></div>
+        <div id="orders-view"></div>
+      </section>
+    </main>
+    <footer class="site-footer"><span>northstar<span>goods</span></span><span>Thoughtfully selected · Secure checkout · Built for the everyday</span></footer>
+    <div id="toast" class="toast" role="status"></div>
+  </div>
+  <script src="/static/js/script.js"></script>
+</body>
+</html>

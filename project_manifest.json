@@ -1,0 +1,83 @@
+{
+  "manifest_version": 1,
+  "project_name": "Northstar Goods E-commerce",
+  "backend": {
+    "framework": "Flask",
+    "application": "backend.app:app",
+    "files": [
+      "backend/app.py",
+      "backend/config.py",
+      "backend/models.py",
+      "backend/requirements.txt",
+      "backend/routes.py"
+    ]
+  },
+  "frontend": {
+    "files": [
+      "frontend/cart.html",
+      "frontend/checkout.html",
+      "frontend/css/style.css",
+      "frontend/home.html",
+      "frontend/index.html",
+      "frontend/js/script.js",
+      "frontend/order-history.html",
+      "frontend/product-detail.html",
+      "frontend/products.html",
+      "frontend/search.html"
+    ],
+    "pages": [
+      "/",
+      "/cart",
+      "/checkout",
+      "/home",
+      "/order-history",
+      "/product-detail",
+      "/products",
+      "/search"
+    ]
+  },
+  "database": {
+    "schema_file": "database/schema.sql",
+    "tables": [
+      "cart",
+      "order_items",
+      "orders",
+      "products",
+      "users"
+    ]
+  },
+  "api_contracts": [],
+  "dependencies": [
+    "Flask",
+    "Flask-SQLAlchemy",
+    "gunicorn",
+    "psycopg2-binary"
+  ],
+  "required_files": [
+    ".env.example",
+    "README.md",
+    "Procfile",
+    "render.yaml",
+    "backend/__init__.py",
+    "backend/app.py",
+    "backend/config.py",
+    "backend/models.py",
+    "backend/requirements.txt",
+    "backend/routes.py",
+    "database/schema.sql",
+    "frontend/cart.html",
+    "frontend/checkout.html",
+    "frontend/css/style.css",
+    "frontend/home.html",
+    "frontend/index.html",
+    "frontend/js/script.js",
+    "frontend/order-history.html",
+    "frontend/product-detail.html",
+    "frontend/products.html",
+    "frontend/search.html",
+    "project_manifest.json",
+    "tests/test_smoke.py"
+  ],
+  "generation_status": "complete",
+  "generation_message": "Completed as a Flask and PostgreSQL-ready e-commerce application."
+}

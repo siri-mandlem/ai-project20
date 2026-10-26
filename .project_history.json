@@ -1,0 +1,223 @@
+{
+  "project_id": "project20",
+  "title": "Create a small E-commerce website with a home page, product listings, product se",
+  "prompt": "Create a small E-commerce website with a home page, product listings, product search, category filters, and product details.\nImplement add-to-cart, update quantity, remove items, checkout, and order history.",
+  "requirements": "## Functional Requirements\n- Home page with navigation links.\n- Product listings with filters by category.\n- Product search functionality.\n- Product details page with images and descriptions.\n- Add-to-cart functionality.\n- Update quantity of items in cart.\n- Remove items from cart.\n- Checkout process for placing orders.\n- Order history for users to view past orders.\n\n## Non-Functional Requirements\n- Performance: Load times should be under 3 seconds for all pages.\n- Security: Implement user authentication and encryption for data transmission.\n- Usability: Ensure a seamless user experience with clear navigation and intuitive interactions.\n\n## Actors\n- Admin: Manages products and orders.\n- Customer: Buys products and views order history.\n\n## Modules\n- Frontend: Handles user interface and interactions.\n- Backend: Manages product data, orders, and user authentication.\n- Database: Stores product information, orders, and user data.\n- Payment Gateway: Integrates for secure transactions.",
+  "architecture": {
+    "architecture_diagram": "graph LR\n\nAdmin --> Backend\n\nBackend --> Database\n\nBackend --> PaymentGateway\n\nCustomer --> Frontend\n\nFrontend --> Authentication\n\nAuthentication --> CustomerModule\n\nCustomerModule --> Database\n\nCustomerModule --> ProductModule\n\nProductModule --> Database\n\nProductModule --> PaymentGateway\n\nCustomerModule --> OrderHistoryModule\n\nCustomerModule --> CartModule"
+  },
+  "database": {
+    "tables": [
+      {
+        "table_name": "users",
+        "columns": [
+          {
+            "name": "id",
+            "type": "SERIAL",
+            "primary_key": true,
+            "foreign_key": ""
+          },
+          {
+            "name": "username",
+            "type": "VARCHAR(100)",
+            "primary_key": false,
+            "foreign_key": ""
+          },
+          {
+            "name": "password",
+            "type": "VARCHAR(100)",
+            "primary_key": false,
+            "foreign_key": ""
+          },
+          {
+            "name": "email",
+            "type": "VARCHAR(100)",
+            "primary_key": false,
+            "foreign_key": ""
+          },
+          {
+            "name": "role",
+            "type": "VARCHAR(50)",
+            "primary_key": false,
+            "foreign_key": ""
+          }
+        ]
+      },
+      {
+        "table_name": "products",
+        "columns": [
+          {
+            "name": "id",
+            "type": "SERIAL",
+            "primary_key": true,
+            "foreign_key": ""
+          },
+          {
+            "name": "name",
+            "type": "VARCHAR(100)",
+            "primary_key": false,
+            "foreign_key": ""
+          },
+          {
+            "name": "description",
+            "type": "TEXT",
+            "primary_key": false,
+            "foreign_key": ""
+          },
+          {
+            "name": "category",
+            "type": "VARCHAR(50)",
+            "primary_key": false,
+            "foreign_key": ""
+          },
+          {
+            "name": "price",
+            "type": "DECIMAL(10, 2)",
+            "primary_key": false,
+            "foreign_key": ""
+          },
+          {
+            "name": "image_url",
+            "type": "VARCHAR(255)",
+            "primary_key": false,
+            "foreign_key": ""
+          }
+        ]
+      },
+      {
+        "table_name": "orders",
+        "columns": [
+          {
+            "name": "id",
+            "type": "SERIAL",
+            "primary_key": true,
+            "foreign_key": ""
+          },
+          {
+            "name": "user_id",
+            "type": "INT",
+            "primary_key": false,
+            "foreign_key": "users.id"
+          },
+          {
+            "name": "product_id",
+            "type": "INT",
+            "primary_key": false,
+            "foreign_key": "products.id"
+          },
+          {
+            "name": "quantity",
+            "type": "INT",
+            "primary_key": false,
+            "foreign_key": ""
+          },
+          {
+            "name": "total_price",
+            "type": "DECIMAL(10, 2)",
+            "primary_key": false,
+            "foreign_key": ""
+          },
+          {
+            "name": "status",
+            "type": "VARCHAR(50)",
+            "primary_key": false,
+            "foreign_key": ""
+          }
+        ]
+      },
+      {
+        "table_name": "order_history",
+        "columns": [
+          {
+            "name": "id",
+            "type": "SERIAL",
+            "primary_key": true,
+            "foreign_key": ""
+          },
+          {
+            "name": "user_id",
+            "type": "INT",
+            "primary_key": false,
+            "foreign_key": "users.id"
+          },
+          {
+            "name": "order_id",
+            "type": "INT",
+            "primary_key": false,
+            "foreign_key": "orders.id"
+          },
+          {
+            "name": "order_date",
+            "type": "TIMESTAMP",
+            "primary_key": false,
+            "foreign_key": ""
+          }
+        ]
+      },
+      {
+        "table_name": "cart",
+        "columns": [
+          {
+            "name": "id",
+            "type": "SERIAL",
+            "primary_key": true,
+            "foreign_key": ""
+          },
+          {
+            "name": "user_id",
+            "type": "INT",
+            "primary_key": false,
+            "foreign_key": "users.id"
+          },
+          {
+            "name": "product_id",
+            "type": "INT",
+            "primary_key": false,
+            "foreign_key": "products.id"
+          },
+          {
+            "name": "quantity",
+            "type": "INT",
+            "primary_key": false,
+            "foreign_key": ""
+          }
+        ]
+      }
+    ],
+    "erd": "erDiagram\n\nUSERS {\n        int id PK\n        string username\n        string password\n        string email\n        string role\n}\n\nPRODUCTS {\n        int id PK\n        string name\n        string description\n        string category\n        float price\n        string image_url\n}\n\nORDERS {\n        int id PK\n        int user_id FK\n        int product_id FK\n        int quantity\n        float total_price\n        string status\n}\n\nORDER_HISTORY {\n        int id PK\n        int user_id FK\n        int order_id FK\n        datetime order_date\n}\n\nCART {\n        int id PK\n        int user_id FK\n        int product_id FK\n        int quantity\n}\n\nUSERS ||--o{ ORDERS : user_id\n\nPRODUCTS ||--o{ ORDERS : product_id\n\nUSERS ||--o{ ORDER_HISTORY : user_id\n\nORDERS ||--o{ ORDER_HISTORY : order_id\n\nUSERS ||--o{ CART : user_id\n\nPRODUCTS ||--o{ CART : product_id",
+    "sql_schema": "CREATE TABLE \"users\" (\n    \"id\" SERIAL,\n    \"username\" VARCHAR(100),\n    \"password\" VARCHAR(100),\n    \"email\" VARCHAR(100),\n    \"role\" VARCHAR(50),\n    PRIMARY KEY (\"id\")\n);\n\nCREATE TABLE \"products\" (\n    \"id\" SERIAL,\n    \"name\" VARCHAR(100),\n    \"description\" TEXT,\n    \"category\" VARCHAR(50),\n    \"price\" DECIMAL(10, 2),\n    \"image_url\" VARCHAR(255),\n    PRIMARY KEY (\"id\")\n);\n\nCREATE TABLE \"orders\" (\n    \"id\" SERIAL,\n    \"user_id\" INT,\n    \"product_id\" INT,\n    \"quantity\" INT,\n    \"total_price\" DECIMAL(10, 2),\n    \"status\" VARCHAR(50),\n    PRIMARY KEY (\"id\")\n);\n\nCREATE TABLE \"order_history\" (\n    \"id\" SERIAL,\n    \"user_id\" INT,\n    \"order_id\" INT,\n    \"order_date\" TIMESTAMP,\n    PRIMARY KEY (\"id\")\n);\n\nCREATE TABLE \"cart\" (\n    \"id\" SERIAL,\n    \"user_id\" INT,\n    \"product_id\" INT,\n    \"quantity\" INT,\n    PRIMARY KEY (\"id\")\n);\n\nALTER TABLE \"orders\" ADD FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\");\n\nALTER TABLE \"orders\" ADD FOREIGN KEY (\"product_id\") REFERENCES \"products\" (\"id\");\n\nALTER TABLE \"order_history\" ADD FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\");\n\nALTER TABLE \"order_history\" ADD FOREIGN KEY (\"order_id\") REFERENCES \"orders\" (\"id\");\n\nALTER TABLE \"cart\" ADD FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\");\n\nALTER TABLE \"cart\" ADD FOREIGN KEY (\"product_id\") REFERENCES \"products\" (\"id\");"
+  },
+  "backend": {
+    "structure": "1. **Backend Technology Stack**\n   - Python (Django or FastAPI)\n   - PostgreSQL\n   - JWT for Authentication\n   - Celery for Asynchronous Tasks\n   - Celery Beat for Scheduled Tasks\n   - Redis for Caching and Message Broker\n   - SSL for Secure Data Transmission\n\n2. **Backend Folder Structure**\n   - `config/`\n     - `settings.py`\n     - `urls.py`\n     - `wsgi.py`\n   - `models/`\n     - `models.py`\n   - `services/`\n     - `auth_service.py`\n     - `product_service.py`\n     - `order_service.py`\n     - `cart_service.py`\n   - `repositories/`\n     - `user_repository.py`\n     - `product_repository.py`\n     - `order_repository.py`\n     - `cart_repository.py`\n   - `controllers/`\n     - `auth_controller.py`\n     - `product_controller.py`\n     - `order_controller.py`\n     - `cart_controller.py`\n   - `apis/`\n     - `auth_api.py`\n     - `product_api.py`\n     - `order_api.py`\n     - `cart_api.py`\n   - `utils/`\n     - `hashing.py`\n     - `encryption.py`\n     - `jwt.py`\n   - `tests/`\n     - `auth_tests.py`\n     - `product_tests.py`\n     - `order_tests.py`\n     - `cart_tests.py`\n   - `logging/`\n     - `logging.conf`\n   - `config/`\n     - `database.py`\n     - `security.py`\n     - `logging.py`\n   - `scripts/`\n     - `setup_db.py`\n     - `setup_celery.py`\n   - `requirements.txt`\n   - `README.md`\n   - `docker-compose.yml`\n   - `docker/`\n     - `Dockerfile`\n     - `docker-compose.yml`\n\n3. **Backend Modules**\n   - **Auth Module**: Handles user authentication, including registration, login, logout, and token management.\n   - **Product Module**: Manages product data, including CRUD operations, filtering, and searching.\n   - **Order Module**: Manages order data, including creation, updating, and retrieval of order history.\n   - **Cart Module**: Manages the shopping cart, including adding, updating, and removing items.\n   - **Common Module**: Contains utility functions and shared services across different modules."
+  },
+  "frontend": {
+    "tech_stack": "For the frontend, the following technologies and frameworks can be used to meet the project requirements:\n\n- HTML\n- CSS (including CSS frameworks like Bootstrap for responsive design)\n- JavaScript (including frameworks like React or Vue.js for complex UI components and state management)\n- JavaScript Libraries/Frameworks: Axios for API calls, jQuery for simpler DOM manipulations, and Moment.js for date handling\n- State Management: Redux or Context API for managing application state\n- Authentication: JWT for secure user authentication and session management\n- Validation: Formik or Yup for form validation\n- Responsive Design: Media queries for different screen sizes\n- Accessibility: ARIA roles and attributes for better accessibility\n- Testing: Jest and Enzyme for unit testing",
+    "structure": "1. Frontend Technology Stack\n   - React.js\n   - Redux for state management\n   - Axios for HTTP requests\n   - Tailwind CSS for styling\n   - Firebase for authentication and database\n\n2. Frontend Folder Structure\n   - `src/`\n     - `components/`\n       - `Navbar.js`\n       - `ProductList.js`\n       - `ProductDetails.js`\n       - `ProductFilter.js`\n       - `Cart.js`\n       - `OrderHistory.js`\n     - `pages/`\n       - `Home.js`\n       - `ProductPage.js`\n       - `CartPage.js`\n       - `OrderPage.js`\n     - `services/`\n       - `api.js`\n       - `authService.js`\n     - `utils/`\n       - `axios.js`\n       - `firebase.js`\n     - `styles/`\n       - `global.css`\n     - `App.js`\n     - `index.js`\n   - `public/`\n     - `favicon.ico`\n   - `package.json`\n   - `README.md`\n\n3. Frontend Pages\n   - Home: Displays the main navigation links and product listings with filters.\n   - Product Page: Shows product details, including images and descriptions, and allows adding to cart.\n   - Cart Page: Displays the shopping cart with items, quantities, and total price. Users can update quantities and remove items.\n   - Order Page: Handles the checkout process, including payment integration and displaying order history.",
+    "pages": "1. home.html - Home page with navigation links.\n2. products.html - Product listings with filters by category.\n3. search.html - Product search functionality.\n4. product-detail.html - Product details page with images and descriptions.\n5. cart.html - Add-to-cart functionality, update quantity, remove items from cart.\n6. checkout.html - Checkout process for placing orders.\n7. order-history.html - Order history for users to view past orders."
+  },
+  "project": {
+    "success": true,
+    "partial": true,
+    "message": "Project code generation stopped at the 15-minute limit. The generated files were saved successfully; review and align the files before deploying.",
+    "project_path": "D:\\html.siri\\AI-Software-Engineering-Platform\\generated_projects\\project20",
+    "backend_generated": false,
+    "frontend_generated": false,
+    "files": [
+      {
+        "name": "schema.sql",
+        "path": "database/schema.sql",
+        "content": "CREATE TABLE \"users\" (\n    \"id\" SERIAL,\n    \"username\" VARCHAR(100),\n    \"password\" VARCHAR(100),\n    \"email\" VARCHAR(100),\n    \"role\" VARCHAR(50),\n    PRIMARY KEY (\"id\")\n);\n\nCREATE TABLE \"products\" (\n    \"id\" SERIAL,\n    \"name\" VARCHAR(100),\n    \"description\" TEXT,\n    \"category\" VARCHAR(50),\n    \"price\" DECIMAL(10, 2),\n    \"image_url\" VARCHAR(255),\n    PRIMARY KEY (\"id\")\n);\n\nCREATE TABLE \"orders\" (\n    \"id\" SERIAL,\n    \"user_id\" INT,\n    \"product_id\" INT,\n    \"quantity\" INT,\n    \"total_price\" DECIMAL(10, 2),\n    \"status\" VARCHAR(50),\n    PRIMARY KEY (\"id\")\n);\n\nCREATE TABLE \"order_history\" (\n    \"id\" SERIAL,\n    \"user_id\" INT,\n    \"order_id\" INT,\n    \"order_date\" TIMESTAMP,\n    PRIMARY KEY (\"id\")\n);\n\nCREATE TABLE \"cart\" (\n    \"id\" SERIAL,\n    \"user_id\" INT,\n    \"product_id\" INT,\n    \"quantity\" INT,\n    PRIMARY KEY (\"id\")\n);\n\nALTER TABLE \"orders\" ADD FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\");\n\nALTER TABLE \"orders\" ADD FOREIGN KEY (\"product_id\") REFERENCES \"products\" (\"id\");\n\nALTER TABLE \"order_history\" ADD FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\");\n\nALTER TABLE \"order_history\" ADD FOREIGN KEY (\"order_id\") REFERENCES \"orders\" (\"id\");\n\nALTER TABLE \"cart\" ADD FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\");\n\nALTER TABLE \"cart\" ADD FOREIGN KEY (\"product_id\") REFERENCES \"products\" (\"id\");\n"
+      },
+      {
+        "name": "project_manifest.json",
+        "path": "project_manifest.json",
+        "content": "{\n  \"manifest_version\": 1,\n  \"project_name\": \"functional_requirements\",\n  \"backend\": {\n    \"framework\": \"Flask\",\n    \"application\": \"backend.app:app\",\n    \"files\": [\n      \"backend/app.py\",\n      \"backend/config.py\",\n      \"backend/models.py\",\n      \"backend/requirements.txt\",\n      \"backend/routes.py\"\n    ]\n  },\n  \"frontend\": {\n    \"files\": [\n      \"frontend/cart.html\",\n      \"frontend/checkout.html\",\n      \"frontend/css/style.css\",\n      \"frontend/home.html\",\n      \"frontend/index.html\",\n      \"frontend/js/script.js\",\n      \"frontend/order-history.html\",\n      \"frontend/product-detail.html\",\n      \"frontend/products.html\",\n      \"frontend/search.html\"\n    ],\n    \"pages\": [\n      \"/\",\n      \"/cart\",\n      \"/checkout\",\n      \"/home\",\n      \"/order-history\",\n      \"/product-detail\",\n      \"/products\",\n      \"/search\"\n    ]\n  },\n  \"database\": {\n    \"schema_file\": \"database/schema.sql\",\n    \"tables\": [\n      \"cart\",\n      \"order_history\",\n      \"orders\",\n      \"products\",\n      \"users\"\n    ]\n  },\n  \"api_contracts\": [],\n  \"dependencies\": [\n    \"Flask\",\n    \"Flask-SQLAlchemy\",\n    \"gunicorn\",\n    \"psycopg2-binary\"\n  ],\n  \"required_files\": [\n    \".env.example\",\n    \"README.md\",\n    \"backend/__init__.py\",\n    \"backend/app.py\",\n    \"backend/config.py\",\n    \"backend/models.py\",\n    \"backend/requirements.txt\",\n    \"backend/routes.py\",\n    \"database/schema.sql\",\n    \"frontend/cart.html\",\n    \"frontend/checkout.html\",\n    \"frontend/css/style.css\",\n    \"frontend/home.html\",\n    \"frontend/index.html\",\n    \"frontend/js/script.js\",\n    \"frontend/order-history.html\",\n    \"frontend/product-detail.html\",\n    \"frontend/products.html\",\n    \"frontend/search.html\",\n    \"project_manifest.json\",\n    \"tests/test_smoke.py\"\n  ],\n  \"generation_status\": \"partial\",\n  \"generation_message\": \"Project code generation stopped at the 15-minute limit. The generated files were saved successfully; review and align the files before deploying.\"\n}\n"
+      }
+    ],
+    "project_id": "project20"
+  },
+  "deployment": {},
+  "status": "partial",
+  "created_at": "2026-10-26T12:45:53.066936+00:00",
+  "updated_at": "2026-10-26T13:27:47.247399+00:00"
+}
